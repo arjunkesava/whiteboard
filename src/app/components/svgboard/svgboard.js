@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, createRef, Fragment } from "react";
+import { useState, createRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./svgboard.module.css";
 
@@ -13,7 +13,7 @@ const Svgboard = () => {
     const { top, left } = svgRef.current.getBoundingClientRect();
     const coords = {
       x: event.clientX - left,
-      y: event.clientX - top,
+      y: event.clientY - top,
     };
     console.log(`X: ${coords.x},Y: ${coords.y}`);
     return coords;
@@ -24,10 +24,7 @@ const Svgboard = () => {
     const { x: initialXaxis, y: initialYaxis } = getCoordinates(event);
     const newDrawingObject = {
       id: uuidv4(),
-      backgroundColor: [
-        "#",
-        Math.floor(Math.random() * 16777215).toString(16),
-      ].join(""),
+      backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       xStart: initialXaxis,
       yStart: initialYaxis,
       xEnd: initialXaxis,
@@ -42,6 +39,11 @@ const Svgboard = () => {
 
   const handleMouseMove = (event) => {
     console.log("MouseMove");
+		if (currentSelectedItem === "") {
+			// This will cancel un-necessary state update.
+			return;
+		}
+
     setDrawingObjects((prevDrawingObject) =>
       prevDrawingObject.map((drawObject) => {
         console.log(`${drawObject.id} === ${currentSelectedItem}`);
@@ -101,7 +103,6 @@ const Svgboard = () => {
   };
 
   return (
-    <Fragment>
       <section className={styles.container}>
         <svg
           onMouseDown={handleMouseDown}
@@ -113,7 +114,6 @@ const Svgboard = () => {
           {drawingObjects.map((drawObject) => renderRectangle(drawObject))}
         </svg>
       </section>
-    </Fragment>
   );
 };
 
