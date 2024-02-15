@@ -62,6 +62,7 @@ const Svgboard = () => {
 
   const handleMouseUp = () => {
     console.log("MouseUp");
+		setCurrentSelectedItem("");
   };
 
   const renderRectangle = (objectDetails) => {
