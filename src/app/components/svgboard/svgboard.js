@@ -166,6 +166,21 @@ const Svgboard = () => {
 		/>
 	}
 
+	const renderArrowLine = (objectDetails) => {
+		return <line
+			key={objectDetails.id}
+			x1={objectDetails.xStart}
+			y1={objectDetails.yStart}
+			x2={objectDetails.xEnd}
+			y2={objectDetails.yEnd}
+			marker-end="url(#arrow)"
+			style={{
+				'stroke': "black",
+				'stroke-width': 5,
+			}}
+		/>
+	}
+
   return (
       <section className={styles.container}>
 				<button
@@ -188,6 +203,11 @@ const Svgboard = () => {
 				>
 					Line
 				</button>
+				<button
+					onClick={() => setDiagramType('arrow-line')}
+				>
+					Arrow Line
+				</button>
         <svg
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -195,6 +215,20 @@ const Svgboard = () => {
           ref={svgRef}
           className={styles.canvas}
         >
+					<defs>
+						{/* We need to define a marker for arrow */}
+						<marker
+							id="arrow"
+							viewBox="0 0 10 10"
+							refX="5"
+							refY="5"
+							markerWidth="6"
+							markerHeight="6"
+							orient="auto-start-reverse"
+						>
+							<path d="M 0 0 L 10 5 L 0 10 z" />
+						</marker>
+					</defs>
           {drawingObjects.map((drawObject) => {
 						switch(drawObject.type) {
 							case "rectangle":
@@ -205,6 +239,8 @@ const Svgboard = () => {
 								return renderCircle(drawObject);
 							case "line":
 								return renderLine(drawObject);
+							case "arrow-line":
+								return renderArrowLine(drawObject);
 						}
 					})}
         </svg>
