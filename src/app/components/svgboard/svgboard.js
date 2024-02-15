@@ -8,7 +8,7 @@ const Svgboard = () => {
   const svgRef = createRef();
   const [drawingObjects, setDrawingObjects] = useState([]);
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
-	const [diagramType, setDiagramType] = useState("");
+	const [diagramType, setDiagramType] = useState("pencil");
 
   const getCoordinates = (event) => {
     const { top, left } = svgRef.current.getBoundingClientRect();
@@ -31,6 +31,7 @@ const Svgboard = () => {
       yStart: initialYaxis,
       xEnd: initialXaxis,
       yEnd: initialYaxis,
+			points: [],
     };
     setCurrentSelectedItem(newDrawingObject.id);
     setDrawingObjects((prevDrawingObject) => [
@@ -50,14 +51,22 @@ const Svgboard = () => {
       prevDrawingObject.map((drawObject) => {
         console.log(`${drawObject.id} === ${currentSelectedItem}`);
         if (drawObject.id === currentSelectedItem) {
-          const { x: endXaxis, y: endYaxis } = getCoordinates(event);
-          console.log("inside selected corrd");
-          console.log(endXaxis, endYaxis);
-          return {
-            ...drawObject,
-            xEnd: endXaxis,
-            yEnd: endYaxis,
-          };
+					const { x: endXaxis, y: endYaxis } = getCoordinates(event);
+					// For pencil, we need to store all points in between the path.
+					if (diagramType === "pencil") {
+						const newPoints = [endXaxis, endYaxis];
+						drawObject.points.push(newPoints);
+						return drawObject;
+					} else {
+						// For other type of diagrams, we just need to start and end.
+						console.log("inside selected corrd");
+						console.log(endXaxis, endYaxis);
+						return {
+							...drawObject,
+							xEnd: endXaxis,
+							yEnd: endYaxis,
+						};
+					}
         }
         return drawObject;
       })
@@ -181,6 +190,17 @@ const Svgboard = () => {
 		/>
 	}
 
+	const renderPencil = (objectDetails) => {
+		return <polyline
+			points={objectDetails.points.map(x => x.join(",")).join(" ")}
+			style={{
+				'fill':'none',
+				'stroke': objectDetails.backgroundColor,
+				'stroke-width': 5,
+			}}
+		></polyline>
+	}
+
   return (
       <section className={styles.container}>
 				<button
@@ -207,6 +227,11 @@ const Svgboard = () => {
 					onClick={() => setDiagramType('arrow-line')}
 				>
 					Arrow Line
+				</button>
+				<button
+					onClick={() => setDiagramType('pencil')}
+				>
+					Pencil
 				</button>
         <svg
           onMouseDown={handleMouseDown}
@@ -241,6 +266,8 @@ const Svgboard = () => {
 								return renderLine(drawObject);
 							case "arrow-line":
 								return renderArrowLine(drawObject);
+							case "pencil":
+								return renderPencil(drawObject);
 						}
 					})}
         </svg>
