@@ -128,6 +128,30 @@ const Svgboard = () => {
 		);
 	}
 
+	const renderCircle = (objectDetails) => {
+		const { axis: xAxis, dimension: width } = computeDimensions(
+      objectDetails.xStart,
+      objectDetails.xEnd
+    );
+    const { axis: yAxis, dimension: height } = computeDimensions(
+      objectDetails.yStart,
+      objectDetails.yEnd
+    );
+		const rx = width / 2;
+		const ry = height / 2;
+		const radius = Math.min(rx, ry);
+
+		return (
+			<circle
+				key={objectDetails.id}
+				cx={xAxis + rx}
+				cy={yAxis + ry}
+				r={radius}
+				fill={objectDetails.backgroundColor}
+			></circle>
+		);	
+	}
+
   return (
       <section className={styles.container}>
 				<button
@@ -139,6 +163,11 @@ const Svgboard = () => {
 					onClick={() => setDiagramType('ellipse')}
 				>
 					Ellipse
+				</button>
+				<button
+					onClick={() => setDiagramType('circle')}
+				>
+					Circle
 				</button>
         <svg
           onMouseDown={handleMouseDown}
@@ -153,6 +182,8 @@ const Svgboard = () => {
 								return renderRectangle(drawObject);
 							case "ellipse":
 								return renderEllipse(drawObject);
+							case "circle":
+								return renderCircle(drawObject);
 						}
 					})}
         </svg>
