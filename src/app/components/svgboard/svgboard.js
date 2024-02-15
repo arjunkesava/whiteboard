@@ -8,7 +8,7 @@ const Svgboard = () => {
   const svgRef = createRef();
   const [drawingObjects, setDrawingObjects] = useState([]);
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
-	const [diagramType, setDiagramType] = useState("pencil");
+  const [diagramType, setDiagramType] = useState("pencil");
 
   const getCoordinates = (event) => {
     const { top, left } = svgRef.current.getBoundingClientRect();
@@ -25,13 +25,13 @@ const Svgboard = () => {
     const { x: initialXaxis, y: initialYaxis } = getCoordinates(event);
     const newDrawingObject = {
       id: uuidv4(),
-			type: diagramType,
+      type: diagramType,
       backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       xStart: initialXaxis,
       yStart: initialYaxis,
       xEnd: initialXaxis,
       yEnd: initialYaxis,
-			points: [],
+      points: [],
     };
     setCurrentSelectedItem(newDrawingObject.id);
     setDrawingObjects((prevDrawingObject) => [
@@ -42,31 +42,31 @@ const Svgboard = () => {
 
   const handleMouseMove = (event) => {
     console.log("MouseMove");
-		if (currentSelectedItem === "") {
-			// This will cancel un-necessary state update.
-			return;
-		}
+    if (currentSelectedItem === "") {
+      // This will cancel un-necessary state update.
+      return;
+    }
 
     setDrawingObjects((prevDrawingObject) =>
       prevDrawingObject.map((drawObject) => {
         console.log(`${drawObject.id} === ${currentSelectedItem}`);
         if (drawObject.id === currentSelectedItem) {
-					const { x: endXaxis, y: endYaxis } = getCoordinates(event);
-					// For pencil, we need to store all points in between the path.
-					if (diagramType === "pencil") {
-						const newPoints = [endXaxis, endYaxis];
-						drawObject.points.push(newPoints);
-						return drawObject;
-					} else {
-						// For other type of diagrams, we just need to start and end.
-						console.log("inside selected corrd");
-						console.log(endXaxis, endYaxis);
-						return {
-							...drawObject,
-							xEnd: endXaxis,
-							yEnd: endYaxis,
-						};
-					}
+          const { x: endXaxis, y: endYaxis } = getCoordinates(event);
+          // For pencil, we need to store all points in between the path.
+          if (diagramType === "pencil") {
+            const newPoints = [endXaxis, endYaxis];
+            drawObject.points.push(newPoints);
+            return drawObject;
+          } else {
+            // For other type of diagrams, we just need to start and end.
+            console.log("inside selected corrd");
+            console.log(endXaxis, endYaxis);
+            return {
+              ...drawObject,
+              xEnd: endXaxis,
+              yEnd: endYaxis,
+            };
+          }
         }
         return drawObject;
       })
@@ -75,10 +75,10 @@ const Svgboard = () => {
 
   const handleMouseUp = () => {
     console.log("MouseUp");
-		setCurrentSelectedItem("");
+    setCurrentSelectedItem("");
   };
 
-	const computeDimensions = (startAxis, endAxis) => {
+  const computeDimensions = (startAxis, endAxis) => {
     if (startAxis < endAxis) {
       return {
         axis: startAxis,
@@ -113,8 +113,8 @@ const Svgboard = () => {
     );
   };
 
-	const renderEllipse = (objectDetails) => {
-		const { axis: xAxis, dimension: width } = computeDimensions(
+  const renderEllipse = (objectDetails) => {
+    const { axis: xAxis, dimension: width } = computeDimensions(
       objectDetails.xStart,
       objectDetails.xEnd
     );
@@ -122,23 +122,23 @@ const Svgboard = () => {
       objectDetails.yStart,
       objectDetails.yEnd
     );
-		const rx = width / 2;
-		const ry = height / 2;
+    const rx = width / 2;
+    const ry = height / 2;
 
-		return (
-			<ellipse
-				key={objectDetails.id}
-				cx={xAxis + rx}
-				cy={yAxis + ry}
-				rx={rx}
-				ry={ry}
-				fill={objectDetails.backgroundColor}
-			></ellipse>
-		);
-	}
+    return (
+      <ellipse
+        key={objectDetails.id}
+        cx={xAxis + rx}
+        cy={yAxis + ry}
+        rx={rx}
+        ry={ry}
+        fill={objectDetails.backgroundColor}
+      ></ellipse>
+    );
+  };
 
-	const renderCircle = (objectDetails) => {
-		const { axis: xAxis, dimension: width } = computeDimensions(
+  const renderCircle = (objectDetails) => {
+    const { axis: xAxis, dimension: width } = computeDimensions(
       objectDetails.xStart,
       objectDetails.xEnd
     );
@@ -146,132 +146,114 @@ const Svgboard = () => {
       objectDetails.yStart,
       objectDetails.yEnd
     );
-		const rx = width / 2;
-		const ry = height / 2;
-		const radius = Math.min(rx, ry);
+    const rx = width / 2;
+    const ry = height / 2;
+    const radius = Math.min(rx, ry);
 
-		return (
-			<circle
-				key={objectDetails.id}
-				cx={xAxis + rx}
-				cy={yAxis + ry}
-				r={radius}
-				fill={objectDetails.backgroundColor}
-			></circle>
-		);	
-	}
+    return (
+      <circle
+        key={objectDetails.id}
+        cx={xAxis + rx}
+        cy={yAxis + ry}
+        r={radius}
+        fill={objectDetails.backgroundColor}
+      ></circle>
+    );
+  };
 
-	const renderLine = (objectDetails) => {
-		return <line
-			key={objectDetails.id}
-			x1={objectDetails.xStart}
-			y1={objectDetails.yStart}
-			x2={objectDetails.xEnd}
-			y2={objectDetails.yEnd}
-			style={{
-				'stroke': objectDetails.backgroundColor,
-				'stroke-width': 10,
-			}}
-		/>
-	}
+  const renderLine = (objectDetails) => {
+    return (
+      <line
+        key={objectDetails.id}
+        x1={objectDetails.xStart}
+        y1={objectDetails.yStart}
+        x2={objectDetails.xEnd}
+        y2={objectDetails.yEnd}
+        style={{
+          stroke: objectDetails.backgroundColor,
+          "stroke-width": 10,
+        }}
+      />
+    );
+  };
 
-	const renderArrowLine = (objectDetails) => {
-		return <line
-			key={objectDetails.id}
-			x1={objectDetails.xStart}
-			y1={objectDetails.yStart}
-			x2={objectDetails.xEnd}
-			y2={objectDetails.yEnd}
-			marker-end="url(#arrow)"
-			style={{
-				'stroke': "black",
-				'stroke-width': 5,
-			}}
-		/>
-	}
+  const renderArrowLine = (objectDetails) => {
+    return (
+      <line
+        key={objectDetails.id}
+        x1={objectDetails.xStart}
+        y1={objectDetails.yStart}
+        x2={objectDetails.xEnd}
+        y2={objectDetails.yEnd}
+        marker-end="url(#arrow)"
+        style={{
+          stroke: "black",
+          "stroke-width": 5,
+        }}
+      />
+    );
+  };
 
-	const renderPencil = (objectDetails) => {
-		return <polyline
-			points={objectDetails.points.map(x => x.join(",")).join(" ")}
-			style={{
-				'fill':'none',
-				'stroke': objectDetails.backgroundColor,
-				'stroke-width': 5,
-			}}
-		></polyline>
-	}
+  const renderPencil = (objectDetails) => {
+    return (
+      <polyline
+        points={objectDetails.points.map((x) => x.join(",")).join(" ")}
+        style={{
+          fill: "none",
+          stroke: objectDetails.backgroundColor,
+          "stroke-width": 5,
+        }}
+      ></polyline>
+    );
+  };
 
   return (
-      <section className={styles.container}>
-				<button
-					onClick={() => setDiagramType('rectangle')}
-				>
-					Rectangle
-				</button>
-				<button
-					onClick={() => setDiagramType('ellipse')}
-				>
-					Ellipse
-				</button>
-				<button
-					onClick={() => setDiagramType('circle')}
-				>
-					Circle
-				</button>
-				<button
-					onClick={() => setDiagramType('line')}
-				>
-					Line
-				</button>
-				<button
-					onClick={() => setDiagramType('arrow-line')}
-				>
-					Arrow Line
-				</button>
-				<button
-					onClick={() => setDiagramType('pencil')}
-				>
-					Pencil
-				</button>
-        <svg
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          ref={svgRef}
-          className={styles.canvas}
-        >
-					<defs>
-						{/* We need to define a marker for arrow */}
-						<marker
-							id="arrow"
-							viewBox="0 0 10 10"
-							refX="5"
-							refY="5"
-							markerWidth="6"
-							markerHeight="6"
-							orient="auto-start-reverse"
-						>
-							<path d="M 0 0 L 10 5 L 0 10 z" />
-						</marker>
-					</defs>
-          {drawingObjects.map((drawObject) => {
-						switch(drawObject.type) {
-							case "rectangle":
-								return renderRectangle(drawObject);
-							case "ellipse":
-								return renderEllipse(drawObject);
-							case "circle":
-								return renderCircle(drawObject);
-							case "line":
-								return renderLine(drawObject);
-							case "arrow-line":
-								return renderArrowLine(drawObject);
-							case "pencil":
-								return renderPencil(drawObject);
-						}
-					})}
-        </svg>
-      </section>
+    <section className={styles.container}>
+      <button onClick={() => setDiagramType("rectangle")}>Rectangle</button>
+      <button onClick={() => setDiagramType("ellipse")}>Ellipse</button>
+      <button onClick={() => setDiagramType("circle")}>Circle</button>
+      <button onClick={() => setDiagramType("line")}>Line</button>
+      <button onClick={() => setDiagramType("arrow-line")}>Arrow Line</button>
+      <button onClick={() => setDiagramType("pencil")}>Pencil</button>
+      <svg
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        ref={svgRef}
+        className={styles.canvas}
+      >
+        <defs>
+          {/* We need to define a marker for arrow */}
+          <marker
+            id="arrow"
+            viewBox="0 0 10 10"
+            refX="5"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" />
+          </marker>
+        </defs>
+        {drawingObjects.map((drawObject) => {
+          switch (drawObject.type) {
+            case "rectangle":
+              return renderRectangle(drawObject);
+            case "ellipse":
+              return renderEllipse(drawObject);
+            case "circle":
+              return renderCircle(drawObject);
+            case "line":
+              return renderLine(drawObject);
+            case "arrow-line":
+              return renderArrowLine(drawObject);
+            case "pencil":
+              return renderPencil(drawObject);
+          }
+        })}
+      </svg>
+    </section>
   );
 };
 
