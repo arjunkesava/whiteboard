@@ -1,37 +1,119 @@
-'use client'
+"use client";
 
-import {useState, createRef, Fragment} from 'react';
+import { useState, createRef, Fragment } from "react";
+import { v4 as uuidv4 } from "uuid";
+import styles from "./svgboard.module.css";
 
 const Svgboard = () => {
-	const ref = createRef();
-	console.log(ref);
+  const svgRef = createRef();
+  const [drawingObjects, setDrawingObjects] = useState([]);
+  const [currentSelectedItem, setCurrentSelectedItem] = useState("");
 
-	const handleMouseDown = () => {
-		console.log('MouseDown');
-	}
+  const getCoordinates = (event) => {
+    const { top, left } = svgRef.current.getBoundingClientRect();
+    const coords = {
+      x: event.clientX - left,
+      y: event.clientX - top,
+    };
+    console.log(`X: ${coords.x},Y: ${coords.y}`);
+    return coords;
+  };
 
-	const handleMouseMove = () => {
-		console.log('MouseMove');
-	}
+  const handleMouseDown = (event) => {
+    console.log("MouseDown, initial call");
+    const { x: initialXaxis, y: initialYaxis } = getCoordinates(event);
+    const newDrawingObject = {
+      id: uuidv4(),
+      backgroundColor: [
+        "#",
+        Math.floor(Math.random() * 16777215).toString(16),
+      ].join(""),
+      xStart: initialXaxis,
+      yStart: initialYaxis,
+      xEnd: initialXaxis,
+      yEnd: initialYaxis,
+    };
+    setCurrentSelectedItem(newDrawingObject.id);
+    setDrawingObjects((prevDrawingObject) => [
+      ...prevDrawingObject,
+      newDrawingObject,
+    ]);
+  };
 
-	const handleMouseUp = () => {
-		console.log('MouseUp');
-	}
+  const handleMouseMove = (event) => {
+    console.log("MouseMove");
+    setDrawingObjects((prevDrawingObject) =>
+      prevDrawingObject.map((drawObject) => {
+        console.log(`${drawObject.id} === ${currentSelectedItem}`);
+        if (drawObject.id === currentSelectedItem) {
+          const { x: endXaxis, y: endYaxis } = getCoordinates(event);
+          console.log("inside selected corrd");
+          console.log(endXaxis, endYaxis);
+          return {
+            ...drawObject,
+            xEnd: endXaxis,
+            yEnd: endYaxis,
+          };
+        }
+        return drawObject;
+      })
+    );
+  };
 
-	return (
-		<Fragment>
-			<section>
-				<p>Mouse move: </p>
-			</section>
-			<div style={{background: 'white', height: '400px', width: '600px'}}>
-			<svg
-				onMouseDown={handleMouseDown}
-				onMouseMove={handleMouseMove}
-				onMouseUp={handleMouseUp}
-			></svg>
-			</div>
-		</Fragment>
-	)
-}
+  const handleMouseUp = () => {
+    console.log("MouseUp");
+  };
+
+  const renderRectangle = (objectDetails) => {
+    const { axis: xAxis, dimension: width } = computeDimensions(
+      objectDetails.xStart,
+      objectDetails.xEnd
+    );
+    const { axis: yAxis, dimension: height } = computeDimensions(
+      objectDetails.yStart,
+      objectDetails.yEnd
+    );
+
+    return (
+      <rect
+        key={objectDetails.id}
+        width={width}
+        height={height}
+        fill={objectDetails.backgroundColor}
+        x={xAxis}
+        y={yAxis}
+      />
+    );
+  };
+
+  const computeDimensions = (startAxis, endAxis) => {
+    if (startAxis < endAxis) {
+      return {
+        axis: startAxis,
+        dimension: endAxis - startAxis,
+      };
+    }
+    return {
+      axis: endAxis,
+      dimension: startAxis - endAxis,
+    };
+  };
+
+  return (
+    <Fragment>
+      <section className={styles.container}>
+        <svg
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          ref={svgRef}
+          className={styles.canvas}
+        >
+          {drawingObjects.map((drawObject) => renderRectangle(drawObject))}
+        </svg>
+      </section>
+    </Fragment>
+  );
+};
 
 export default Svgboard;
