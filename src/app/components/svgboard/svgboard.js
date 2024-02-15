@@ -8,6 +8,7 @@ const Svgboard = () => {
   const svgRef = createRef();
   const [drawingObjects, setDrawingObjects] = useState([]);
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
+	const [diagramType, setDiagramType] = useState("");
 
   const getCoordinates = (event) => {
     const { top, left } = svgRef.current.getBoundingClientRect();
@@ -24,6 +25,7 @@ const Svgboard = () => {
     const { x: initialXaxis, y: initialYaxis } = getCoordinates(event);
     const newDrawingObject = {
       id: uuidv4(),
+			type: diagramType,
       backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       xStart: initialXaxis,
       yStart: initialYaxis,
@@ -67,6 +69,19 @@ const Svgboard = () => {
 		setCurrentSelectedItem("");
   };
 
+	const computeDimensions = (startAxis, endAxis) => {
+    if (startAxis < endAxis) {
+      return {
+        axis: startAxis,
+        dimension: endAxis - startAxis,
+      };
+    }
+    return {
+      axis: endAxis,
+      dimension: startAxis - endAxis,
+    };
+  };
+
   const renderRectangle = (objectDetails) => {
     const { axis: xAxis, dimension: width } = computeDimensions(
       objectDetails.xStart,
@@ -89,21 +104,42 @@ const Svgboard = () => {
     );
   };
 
-  const computeDimensions = (startAxis, endAxis) => {
-    if (startAxis < endAxis) {
-      return {
-        axis: startAxis,
-        dimension: endAxis - startAxis,
-      };
-    }
-    return {
-      axis: endAxis,
-      dimension: startAxis - endAxis,
-    };
-  };
+	const renderEllipse = (objectDetails) => {
+		const { axis: xAxis, dimension: width } = computeDimensions(
+      objectDetails.xStart,
+      objectDetails.xEnd
+    );
+    const { axis: yAxis, dimension: height } = computeDimensions(
+      objectDetails.yStart,
+      objectDetails.yEnd
+    );
+		const rx = width / 2;
+		const ry = height / 2;
+
+		return (
+			<ellipse
+				key={objectDetails.id}
+				cx={xAxis + rx}
+				cy={yAxis + ry}
+				rx={rx}
+				ry={ry}
+				fill={objectDetails.backgroundColor}
+			></ellipse>
+		);
+	}
 
   return (
       <section className={styles.container}>
+				<button
+					onClick={() => setDiagramType('rectangle')}
+				>
+					Rectangle
+				</button>
+				<button
+					onClick={() => setDiagramType('ellipse')}
+				>
+					Ellipse
+				</button>
         <svg
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
@@ -111,7 +147,14 @@ const Svgboard = () => {
           ref={svgRef}
           className={styles.canvas}
         >
-          {drawingObjects.map((drawObject) => renderRectangle(drawObject))}
+          {drawingObjects.map((drawObject) => {
+						switch(drawObject.type) {
+							case "rectangle":
+								return renderRectangle(drawObject);
+							case "ellipse":
+								return renderEllipse(drawObject);
+						}
+					})}
         </svg>
       </section>
   );
