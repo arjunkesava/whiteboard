@@ -1,5 +1,4 @@
-// import Svgboard from './components/svgboard/svgboard';
-import Svgboard from "./components/whiteboard/whiteboard";
+import Whiteboard from "./components/whiteboard/whiteboard";
 
 export default function Home() {
   return (
@@ -99,7 +98,7 @@ export default function Home() {
       </div>
 
       <div className="container">
-        <Svgboard/>
+        <Whiteboard/>
       </div>
     </main>
   </div>

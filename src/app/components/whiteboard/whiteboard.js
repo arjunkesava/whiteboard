@@ -4,7 +4,7 @@ import { useState, createRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./svgboard.module.css";
 
-const Svgboard = () => {
+const Whiteboard = () => {
   const svgRef = createRef();
   const [drawingObjects, setDrawingObjects] = useState([]);
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
@@ -281,4 +281,4 @@ const Svgboard = () => {
   );
 };
 
-export default Svgboard;
+export default Whiteboard;
