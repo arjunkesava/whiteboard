@@ -24,12 +24,10 @@ export default function Home() {
       x: event.clientX - left,
       y: event.clientY - top,
     };
-    console.log(`X: ${coords.x},Y: ${coords.y}`);
     return coords;
   };
 
   const handleMouseDown = (event) => {
-    console.log("MouseDown, initial call");
     if (diagramType === "drag") {
       return;
     }
@@ -52,7 +50,6 @@ export default function Home() {
   };
 
   const handleMouseMove = (event) => {
-    console.log("MouseMove");
     if (currentSelectedItem === "") {
       // This will cancel un-necessary state update.
       return;
@@ -60,7 +57,6 @@ export default function Home() {
 
     setDrawingObjects((prevDrawingObject) =>
       prevDrawingObject.map((drawObject) => {
-        console.log(`${drawObject.id} === ${currentSelectedItem}`);
         if (drawObject.id === currentSelectedItem) {
           const { x: endXaxis, y: endYaxis } = getCoordinates(event);
           // For pencil, we need to store all points in between the path.
@@ -93,7 +89,6 @@ export default function Home() {
   };
 
   const handleMouseUp = () => {
-    console.log("MouseUp");
     setCurrentSelectedItem("");
   };
 
