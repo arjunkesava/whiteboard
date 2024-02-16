@@ -1,16 +1,24 @@
 "use client";
 
-import { useState, createRef } from "react";
+import { useState, useEffect, createRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Whiteboard from "./components/whiteboard/whiteboard";
 import Tools from "./components/tools/tools";
 import SideTools from "./components/sidetools/sidetools";
 
+const getDrawingObjectsFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem('drawingObjects')) ?? [];
+}
+
 export default function Home() {
   const svgRef = createRef();
-  const [drawingObjects, setDrawingObjects] = useState([]);
+  const [drawingObjects, setDrawingObjects] = useState(getDrawingObjectsFromLocalStorage);
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
   const [diagramType, setDiagramType] = useState("pencil");
+
+  useEffect(() => {
+    localStorage.setItem('drawingObjects', JSON.stringify(drawingObjects));
+  }, [drawingObjects]);
 
   const resetState = () => {
     setDrawingObjects([]);
@@ -105,7 +113,7 @@ export default function Home() {
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <SideTools clearEntireScreen={resetState} />
-            <div className="container">
+            <div className="container p-0">
               <Whiteboard
                 svgRef={svgRef}
                 handleMouseDown={handleMouseDown}
