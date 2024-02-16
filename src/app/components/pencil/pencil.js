@@ -1,4 +1,9 @@
-const Pencil = ({ objectDetails, setCurrentSelectedItem, handleMouseUp }) => {
+const Pencil = ({
+  objectDetails,
+  setCurrentSelectedItem,
+  handleMouseUp,
+  className,
+}) => {
   return (
     <polyline
       points={objectDetails.points.map((x) => x.join(",")).join(" ")}
@@ -9,6 +14,7 @@ const Pencil = ({ objectDetails, setCurrentSelectedItem, handleMouseUp }) => {
       }}
       onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
       onMouseUp={handleMouseUp}
+      className={className}
     />
   );
 };

@@ -20,6 +20,7 @@ const Ellipse = ({
       fill={objectDetails.backgroundColor}
       onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
       onMouseUp={handleMouseUp}
+      className="object--circle"
     ></ellipse>
   );
 };

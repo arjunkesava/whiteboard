@@ -12,4 +12,14 @@
   width: 100%;
   height: 100vh;
   background: #fff;
+  cursor: crosshair;
+}
+
+.diagram-object {
+  cursor: move;
+}
+
+.diagram-object:hover {
+  stroke: dodgerblue;
+  stroke-width: 2px;
 }

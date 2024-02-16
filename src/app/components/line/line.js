@@ -1,4 +1,9 @@
-const Line = ({ objectDetails, setCurrentSelectedItem, handleMouseUp }) => {
+const Line = ({
+  objectDetails,
+  setCurrentSelectedItem,
+  handleMouseUp,
+  className,
+}) => {
   return (
     <line
       key={objectDetails.id}
@@ -12,6 +17,7 @@ const Line = ({ objectDetails, setCurrentSelectedItem, handleMouseUp }) => {
       }}
       onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
       onMouseUp={handleMouseUp}
+      className={className}
     />
   );
 };

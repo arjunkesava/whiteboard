@@ -2,6 +2,7 @@ const ArrowLine = ({
   objectDetails,
   setCurrentSelectedItem,
   handleMouseUp,
+  className,
 }) => {
   return (
     <line
@@ -17,6 +18,7 @@ const ArrowLine = ({
       }}
       onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
       onMouseUp={handleMouseUp}
+      className={className}
     />
   );
 };

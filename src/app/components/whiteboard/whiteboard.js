@@ -71,6 +71,7 @@ const Whiteboard = ({
                   height={height}
                   handleMouseUp={handleMouseUp}
                   setCurrentSelectedItem={setCurrentSelectedItem}
+                  className={styles["diagram-object"]}
                 />
               );
             case "ellipse":
@@ -83,6 +84,7 @@ const Whiteboard = ({
                   height={height}
                   handleMouseUp={handleMouseUp}
                   setCurrentSelectedItem={setCurrentSelectedItem}
+                  className={styles["diagram-object"]}
                 />
               );
             case "circle":
@@ -95,6 +97,7 @@ const Whiteboard = ({
                   height={height}
                   handleMouseUp={handleMouseUp}
                   setCurrentSelectedItem={setCurrentSelectedItem}
+                  className={styles["diagram-object"]}
                 />
               );
             case "line":
@@ -103,6 +106,7 @@ const Whiteboard = ({
                   objectDetails={drawObject}
                   setCurrentSelectedItem={setCurrentSelectedItem}
                   handleMouseUp={handleMouseUp}
+                  className={styles["diagram-object"]}
                 />
               );
             case "arrow-line":
@@ -111,6 +115,7 @@ const Whiteboard = ({
                   objectDetails={drawObject}
                   setCurrentSelectedItem={setCurrentSelectedItem}
                   handleMouseUp={handleMouseUp}
+                  className={styles["diagram-object"]}
                 />
               );
             case "pencil":
@@ -119,6 +124,7 @@ const Whiteboard = ({
                   objectDetails={drawObject}
                   setCurrentSelectedItem={setCurrentSelectedItem}
                   handleMouseUp={handleMouseUp}
+                  className={styles["diagram-object"]}
                 />
               );
           }

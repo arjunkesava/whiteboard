@@ -13,10 +13,12 @@ const Tools = ({ diagramType, setDiagramType }) => {
             <span>SHAPES</span>
           </h6>
           <hr className="my-3" />
-          <ul className="nav flex-column mb-auto">
+          <ul className="nav nav-pills flex-column mb-auto">
             <li className="nav-item">
               <a
-                className="nav-link d-flex align-items-center gap-2"
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "pencil" ? "active" : ""
+                }`}
                 href="#"
                 onClick={() => setDiagramType("pencil")}
               >
@@ -36,7 +38,9 @@ const Tools = ({ diagramType, setDiagramType }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link d-flex align-items-center gap-2"
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "ellipse" ? "active" : ""
+                }`}
                 href="#"
                 onClick={() => setDiagramType("ellipse")}
               >
@@ -45,7 +49,9 @@ const Tools = ({ diagramType, setDiagramType }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link d-flex align-items-center gap-2"
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "circle" ? "active" : ""
+                }`}
                 href="#"
                 onClick={() => setDiagramType("circle")}
               >
@@ -54,7 +60,9 @@ const Tools = ({ diagramType, setDiagramType }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link d-flex align-items-center gap-2"
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "line" ? "active" : ""
+                }`}
                 href="#"
                 onClick={() => setDiagramType("line")}
               >
@@ -63,7 +71,9 @@ const Tools = ({ diagramType, setDiagramType }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link d-flex align-items-center gap-2"
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "arrow-line" ? "active" : ""
+                }`}
                 href="#"
                 onClick={() => setDiagramType("arrow-line")}
               >
@@ -78,6 +88,17 @@ const Tools = ({ diagramType, setDiagramType }) => {
           </h6>
           <hr className="my-3" />
           <ul className="nav flex-column mb-auto">
+            <li className="nav-item">
+              <a
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "drag" ? "active" : ""
+                }`}
+                href="#"
+                onClick={() => setDiagramType("drag")}
+              >
+                Drag Shapes
+              </a>
+            </li>
             <li className="nav-item">
               <a className="nav-link d-flex align-items-center gap-2" href="#">
                 Color

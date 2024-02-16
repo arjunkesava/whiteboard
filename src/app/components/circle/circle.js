@@ -6,6 +6,7 @@ const Circle = ({
   objectDetails,
   setCurrentSelectedItem,
   handleMouseUp,
+  className,
 }) => {
   const rx = width / 2;
   const ry = height / 2;
@@ -20,6 +21,7 @@ const Circle = ({
       fill={objectDetails.backgroundColor}
       onMouseUp={handleMouseUp}
       onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
+      className={className}
     ></circle>
   );
 };

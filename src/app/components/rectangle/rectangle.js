@@ -6,6 +6,7 @@ const Rectangle = ({
   height,
   setCurrentSelectedItem,
   handleMouseUp,
+  className,
 }) => {
   return (
     <rect
@@ -17,6 +18,7 @@ const Rectangle = ({
       y={yAxis}
       onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
       onMouseUp={handleMouseUp}
+      className={className}
     />
   );
 };
