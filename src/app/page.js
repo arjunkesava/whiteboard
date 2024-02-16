@@ -6,24 +6,25 @@ import Whiteboard from "./components/whiteboard/whiteboard";
 import Tools from "./components/tools/tools";
 import SideTools from "./components/sidetools/sidetools";
 
-const getDrawingObjectsFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem('drawingObjects')) ?? [];
-}
-
 export default function Home() {
   const svgRef = createRef();
-  const [drawingObjects, setDrawingObjects] = useState(getDrawingObjectsFromLocalStorage);
+  const [drawingObjects, setDrawingObjects] = useState(JSON.parse(localStorage.getItem('drawingObjects')) ?? []);
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
   const [diagramType, setDiagramType] = useState("pencil");
 
   useEffect(() => {
-    localStorage.setItem('drawingObjects', JSON.stringify(drawingObjects));
+    const interval = setInterval(() => {
+      localStorage.setItem('drawingObjects', JSON.stringify(drawingObjects));
+    }, 30000); // for every 30 seconds, the image gets saved
+  
+    return () => clearInterval(interval);
   }, [drawingObjects]);
 
   const resetState = () => {
     setDrawingObjects([]);
     setCurrentSelectedItem("");
     setDiagramType("pencil");
+    localStorage.setItem('drawingObjects', JSON.stringify([]));
   };
 
   const getCoordinates = (event) => {
