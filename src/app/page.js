@@ -12,6 +12,12 @@ export default function Home() {
   const [currentSelectedItem, setCurrentSelectedItem] = useState("");
   const [diagramType, setDiagramType] = useState("pencil");
 
+  const resetState = () => {
+    setDrawingObjects([]);
+    setCurrentSelectedItem("");
+    setDiagramType("pencil");
+  };
+
   const getCoordinates = (event) => {
     const { top, left } = svgRef.current.getBoundingClientRect();
     const coords = {
@@ -103,7 +109,7 @@ export default function Home() {
           <Tools setDiagramType={setDiagramType} diagramType={diagramType} />
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <SideTools />
+            <SideTools clearEntireScreen={resetState} />
             <div className="container">
               <Whiteboard
                 svgRef={svgRef}
