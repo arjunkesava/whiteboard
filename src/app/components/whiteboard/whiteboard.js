@@ -22,9 +22,9 @@ const Svgboard = () => {
 
   const handleMouseDown = (event) => {
     console.log("MouseDown, initial call");
-		if (diagramType === "drag") {
-			return;
-		}
+    if (diagramType === "drag") {
+      return;
+    }
     const { x: initialXaxis, y: initialYaxis } = getCoordinates(event);
     const newDrawingObject = {
       id: uuidv4(),
@@ -61,23 +61,23 @@ const Svgboard = () => {
             drawObject.points.push(newPoints);
             return drawObject;
           }
-					if (diagramType === "drag") {
-						const xDelta = endXaxis - drawObject.xStart;
-						const yDelta = endYaxis - drawObject.yStart;
-						return {
-							...drawObject,
-							xStart: drawObject.xStart + xDelta,
-							xEnd: drawObject.xEnd + xDelta,
-							yStart: drawObject.yStart + yDelta,
-							yEnd: drawObject.yEnd + yDelta
-						};	
-					}
-					// For other type of diagrams, we just need to start and end.
-					return {
-						...drawObject,
-						xEnd: endXaxis,
-						yEnd: endYaxis,
-					};
+          if (diagramType === "drag") {
+            const xDelta = endXaxis - drawObject.xStart;
+            const yDelta = endYaxis - drawObject.yStart;
+            return {
+              ...drawObject,
+              xStart: drawObject.xStart + xDelta,
+              xEnd: drawObject.xEnd + xDelta,
+              yStart: drawObject.yStart + yDelta,
+              yEnd: drawObject.yEnd + yDelta,
+            };
+          }
+          // For other type of diagrams, we just need to start and end.
+          return {
+            ...drawObject,
+            xEnd: endXaxis,
+            yEnd: endYaxis,
+          };
         }
         return drawObject;
       })
@@ -102,7 +102,7 @@ const Svgboard = () => {
     };
   };
 
-	const renderRectangle = (objectDetails) => {
+  const renderRectangle = (objectDetails) => {
     const { axis: xAxis, dimension: width } = computeDimensions(
       objectDetails.xStart,
       objectDetails.xEnd
@@ -120,7 +120,7 @@ const Svgboard = () => {
         fill={objectDetails.backgroundColor}
         x={xAxis}
         y={yAxis}
-				onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
+        onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
         onMouseUp={handleMouseUp}
       />
     );
@@ -146,7 +146,7 @@ const Svgboard = () => {
         rx={rx}
         ry={ry}
         fill={objectDetails.backgroundColor}
-				onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
+        onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
         onMouseUp={handleMouseUp}
       ></ellipse>
     );
@@ -172,7 +172,7 @@ const Svgboard = () => {
         cy={yAxis + ry}
         r={radius}
         fill={objectDetails.backgroundColor}
-				onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
+        onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
         onMouseUp={handleMouseUp}
       ></circle>
     );
@@ -190,7 +190,7 @@ const Svgboard = () => {
           stroke: objectDetails.backgroundColor,
           "stroke-width": 10,
         }}
-				onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
+        onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
         onMouseUp={handleMouseUp}
       />
     );
@@ -209,7 +209,7 @@ const Svgboard = () => {
           stroke: "black",
           strokeWidth: 5,
         }}
-				onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
+        onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
         onMouseUp={handleMouseUp}
       />
     );
@@ -230,17 +230,15 @@ const Svgboard = () => {
 
   return (
     <section className={styles.container}>
-			<section
-				style={{display: 'flex', justifyContent: 'space-around'}}
-			>
-      <button onClick={() => setDiagramType("rectangle")}>Rectangle</button>
-      <button onClick={() => setDiagramType("ellipse")}>Ellipse</button>
-      <button onClick={() => setDiagramType("circle")}>Circle</button>
-      <button onClick={() => setDiagramType("line")}>Line</button>
-      <button onClick={() => setDiagramType("arrow-line")}>Arrow Line</button>
-      <button onClick={() => setDiagramType("pencil")}>Pencil</button>
-			<button onClick={() => setDiagramType("drag")}>Drag</button>
-			</section>
+      <section style={{ display: "flex", justifyContent: "space-around" }}>
+        <button onClick={() => setDiagramType("rectangle")}>Rectangle</button>
+        <button onClick={() => setDiagramType("ellipse")}>Ellipse</button>
+        <button onClick={() => setDiagramType("circle")}>Circle</button>
+        <button onClick={() => setDiagramType("line")}>Line</button>
+        <button onClick={() => setDiagramType("arrow-line")}>Arrow Line</button>
+        <button onClick={() => setDiagramType("pencil")}>Pencil</button>
+        <button onClick={() => setDiagramType("drag")}>Drag</button>
+      </section>
       <svg
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
