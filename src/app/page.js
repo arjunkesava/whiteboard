@@ -4,7 +4,7 @@ import { useState, createRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Whiteboard from "./components/whiteboard/whiteboard";
 import Tools from "./components/tools/tools";
-import SideTools from './components/sidetools/sidetools';
+import SideTools from "./components/sidetools/sidetools";
 
 export default function Home() {
   const svgRef = createRef();
@@ -82,7 +82,7 @@ export default function Home() {
           };
         }
         return drawObject;
-      })
+      }),
     );
   };
 
@@ -100,10 +100,10 @@ export default function Home() {
       </header>
       <div className="container-fluid">
         <div className="row">
-          <Tools setDiagramType={setDiagramType}/>
+          <Tools setDiagramType={setDiagramType} diagramType={diagramType} />
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <SideTools/>
+            <SideTools />
             <div className="container">
               <Whiteboard
                 svgRef={svgRef}

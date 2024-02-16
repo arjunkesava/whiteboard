@@ -19,7 +19,7 @@ const Circle = ({
       r={radius}
       fill={objectDetails.backgroundColor}
       onMouseUp={handleMouseUp}
-      onMouseDown={setCurrentSelectedItem(objectDetails.id)}
+      onMouseDown={() => setCurrentSelectedItem(objectDetails.id)}
     ></circle>
   );
 };

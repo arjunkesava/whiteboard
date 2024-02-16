@@ -1,4 +1,4 @@
-const Tools = ({ setDiagramType }) => {
+const Tools = ({ diagramType, setDiagramType }) => {
   return (
     <div className="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
       <div className="offcanvas-md offcanvas-end bg-body-tertiary">
@@ -25,7 +25,9 @@ const Tools = ({ setDiagramType }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link d-flex align-items-center gap-2"
+                className={`nav-link d-flex align-items-center gap-2 ${
+                  diagramType === "rectangle" ? "active" : ""
+                }`}
                 href="#"
                 onClick={() => setDiagramType("rectangle")}
               >
