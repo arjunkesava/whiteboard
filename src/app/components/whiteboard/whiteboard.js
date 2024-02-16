@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import styles from "./whiteboard.module.css";
 import Rectangle from "../rectangle/rectangle";
 import Ellipse from "../ellipse/ellipse";
@@ -64,6 +65,7 @@ const Whiteboard = ({
             case "rectangle":
               return (
                 <Rectangle
+                  key={uuidv4()}
                   objectDetails={drawObject}
                   xAxis={xAxis}
                   yAxis={yAxis}
@@ -77,6 +79,7 @@ const Whiteboard = ({
             case "ellipse":
               return (
                 <Ellipse
+                  key={uuidv4()}
                   objectDetails={drawObject}
                   xAxis={xAxis}
                   yAxis={yAxis}
@@ -90,6 +93,7 @@ const Whiteboard = ({
             case "circle":
               return (
                 <Circle
+                  key={uuidv4()}
                   objectDetails={drawObject}
                   xAxis={xAxis}
                   yAxis={yAxis}
@@ -103,6 +107,7 @@ const Whiteboard = ({
             case "line":
               return (
                 <Line
+                  key={uuidv4()}
                   objectDetails={drawObject}
                   setCurrentSelectedItem={setCurrentSelectedItem}
                   handleMouseUp={handleMouseUp}
@@ -112,6 +117,7 @@ const Whiteboard = ({
             case "arrow-line":
               return (
                 <ArrowLine
+                  key={uuidv4()}
                   objectDetails={drawObject}
                   setCurrentSelectedItem={setCurrentSelectedItem}
                   handleMouseUp={handleMouseUp}
@@ -121,6 +127,7 @@ const Whiteboard = ({
             case "pencil":
               return (
                 <Pencil
+                  key={uuidv4()}
                   objectDetails={drawObject}
                   setCurrentSelectedItem={setCurrentSelectedItem}
                   handleMouseUp={handleMouseUp}
