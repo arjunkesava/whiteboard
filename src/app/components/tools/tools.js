@@ -9,7 +9,7 @@ const Tools = ({ diagramType, setDiagramType }) => {
           <button type="button" className="btn-close"></button>
         </div>
         <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+          <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
             <span>SHAPES</span>
           </h6>
           <hr className="my-3" />
@@ -83,7 +83,7 @@ const Tools = ({ diagramType, setDiagramType }) => {
           </ul>
         </div>
         <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+          <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
             <span>TOOLS</span>
           </h6>
           <hr className="my-3" />
